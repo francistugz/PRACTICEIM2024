@@ -32,31 +32,27 @@ class InvoiceController extends Controller
      * Store a newly created invoice in the database.
      */
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'client_id' => ['required', 'exists:clients,id'],
-            'project_id' => ['required', 'exists:projects,id'],
-            'invoice_number' => 'required|unique:invoices,invoice_number',
-            'total_amount' => 'required|numeric',
-            'due_date' => 'required|date',
-            'status' => 'required|in:pending,paid,overdue',
-            'notes' => 'nullable|string',
-        ]);
+{
+    $validated = $request->validate([
+        'client_id' => 'required|exists:clients,id',
+        'project_id' => 'required|exists:projects,id',
+        'invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
+        'total_amount' => 'required|numeric|min:0',
+        'due_date' => 'required|date_format:Y-m-d|after_or_equal:today',
+        'status' => 'required|in:pending,paid,overdue',
+        'notes' => 'nullable|string',
+    ], [
+        'due_date.required' => 'The due date is required.',
+        'due_date.date_format' => 'The due date must be in the format YYYY-MM-DD.',
+        'due_date.after_or_equal' => 'The due date cannot be in the past.',
+    ]);
 
-        $invoice = new Invoice([
-            'client_id' => $validated['client_id'], // Ensure this is set
-            'project_id' => $validated['project_id'],
-            'invoice_number' => $validated['invoice_number'],
-            'total_amount' => $validated['total_amount'],
-            'due_date' => $validated['due_date'],
-            'status' => $validated['status'],
-            'notes' => $validated['notes'],
-        ]);
-    
-        $invoice->save();
+    // Save the validated data
+    Invoice::create($validated);
 
-        return redirect()->route('invoices.index')->with('success', 'Invoice created successfully!');
-    }
+    return redirect()->route('invoices.index')->with('success', 'Invoice created successfully!');
+}
+
 
     /**
      * Show the form for editing an invoice.
@@ -78,9 +74,12 @@ class InvoiceController extends Controller
             'project_id' => 'nullable|exists:projects,id',
             'invoice_number' => 'required|string|max:255|unique:invoices,invoice_number,' . $invoice->id,
             'total_amount' => 'required|numeric|min:0',
-            'due_date' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:today',  // Ensures a valid date and that it is not in the past
             'status' => 'required|in:pending,paid,overdue',
             'notes' => 'nullable|string',
+        ], [
+            'due_date.date' => 'The due date must be a valid date in the format YYYY-MM-DD.',
+            'due_date.after_or_equal' => 'The due date cannot be in the past.',
         ]);
 
         $invoice->update($validated);
