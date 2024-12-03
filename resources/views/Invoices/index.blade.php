@@ -1,83 +1,66 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Invoices List') }}
+            {{ __('Invoices') }}
         </h2>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <!-- Add Invoice Button -->
-            <div class="mb-4">
-                <a href="{{ route('invoices.create') }}" class="text-indigo-600 hover:text-indigo-900">
-                    <x-primary-button>
-                        {{ __('Create New Invoice') }}
-                    </x-primary-button>
-                </a>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold">{{ __('Invoices List') }}</h3>
+                        <a href="{{ route('invoices.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            {{ __('Add Invoice') }}
+                        </a>
+                    </div>
+
+                    <table class="table-auto w-full text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="border-b py-2">#</th>
+                                <th class="border-b py-2">{{ __('Invoice Number') }}</th>
+                                <th class="border-b py-2">{{ __('Client') }}</th>
+                                <th class="border-b py-2">{{ __('Project') }}</th>
+                                <th class="border-b py-2">{{ __('Total Amount') }}</th>
+                                <th class="border-b py-2">{{ __('Due Date') }}</th>
+                                <th class="border-b py-2">{{ __('Status') }}</th>
+                                <th class="border-b py-2 text-center">{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($invoices as $invoice)
+                                <tr>
+                                    <td class="border-b py-2">{{ $invoice->id }}</td>
+                                    <td class="border-b py-2">{{ $invoice->invoice_number }}</td>
+                                    <td class="border-b py-2">{{ $invoice->client->client_name ?? __('N/A') }}</td>
+                                    <td class="border-b py-2">{{ $invoice->project ? $invoice->project->project_name : 'N/A' }}</td>
+                                    <td class="border-b py-2">{{ number_format($invoice->total_amount, 2) }}</td>
+                                    <td class="border-b py-2">{{ \Carbon\Carbon::parse($invoice->due_date)->format('F j, Y') }}</td>
+                                    <td class="border-b py-2">{{ ucfirst($invoice->status) }}</td>
+                                    <td class="border-b py-2 text-center">
+                                        <a href="{{ route('invoices.edit', $invoice->id) }}" class="text-blue-500 hover:text-blue-700">
+                                            {{ __('Edit') }}
+                                        </a>
+                                        <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('{{ __('Are you sure you want to delete this invoice?') }}')" class="text-red-500 hover:text-red-700">
+                                                {{ __('Delete') }}
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="text-center py-4">{{ __('No invoices found.') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <!-- Invoices Table -->
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Invoice Number
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Client
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Project
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Total Amount
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Due Date
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($invoices as $invoice)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $invoice->invoice_number }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $invoice->client->client_name ?? 'N/A' }} <!-- Display client name -->
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $invoice->project ? $invoice->project->project_name : 'N/A' }} <!-- Display project name -->
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ number_format($invoice->total_amount, 2) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ \Carbon\Carbon::parse($invoice->due_date)->format('F j, Y') }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ ucfirst($invoice->status) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <a href="{{ route('invoices.edit', $invoice->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                            |
-                            <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this invoice?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
-
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
         </div>
     </div>
 </x-app-layout>

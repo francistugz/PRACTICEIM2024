@@ -5,66 +5,56 @@
         </h2>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
-        <div class="bg-white shadow-lg rounded-lg p-6">
-            <!-- Add Project Button -->
-            <div class="mb-4">
-                <a href="{{ route('projects.create') }}" class="text-indigo-600 hover:text-indigo-900">
-                    <x-primary-button>
-                        {{ __('Create New Project') }}
-                    </x-primary-button>
-                </a>
-            </div>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold">{{ __('Projects List') }}</h3>
+                        <a href="{{ route('projects.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            {{ __('Add Project') }}
+                        </a>
+                    </div>
 
-            <!-- Projects Table -->
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Project Name
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Client
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Address
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($projects as $project)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $project->project_name }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $project->client->client_name ?? 'N/A' }} <!-- Display client name -->
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ ucfirst($project->project_status) }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $project->address }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('projects.edit', $project->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                            |
-                            <form action="{{ route('projects.destroy', $project->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this project?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    <table class="table-auto w-full text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th class="border-b py-2">{{ __('Project Name') }}</th>
+                                <th class="border-b py-2">{{ __('Client') }}</th>
+                                <th class="border-b py-2">{{ __('Status') }}</th>
+                                <th class="border-b py-2">{{ __('Address') }}</th>
+                                <th class="border-b py-2 text-center">{{ __('Actions') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($projects as $project)
+                                <tr>
+                                    <td class="border-b py-2">{{ $project->project_name }}</td>
+                                    <td class="border-b py-2">{{ $project->client->client_name ?? __('N/A') }}</td>
+                                    <td class="border-b py-2">{{ ucfirst($project->project_status) }}</td>
+                                    <td class="border-b py-2">{{ $project->address }}</td>
+                                    <td class="border-b py-2 text-center">
+                                        <a href="{{ route('projects.edit', $project->id) }}" class="text-blue-500 hover:text-blue-700">
+                                            {{ __('Edit') }}
+                                        </a>
+                                        <form action="{{ route('projects.destroy', $project->id) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="return confirm('{{ __('Are you sure you want to delete this project?') }}')" class="text-red-500 hover:text-red-700">
+                                                {{ __('Delete') }}
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-4">{{ __('No projects found.') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>
