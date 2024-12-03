@@ -32,7 +32,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'invoice_id' => 'required|exists:invoices,id',
+            'invoices_id' => 'required|exists:invoices,id',
             'payment_method' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',
@@ -60,7 +60,7 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment)
     {
         $validated = $request->validate([
-            'invoice_id' => 'required|exists:invoices,id',
+            'invoices_id' => 'required|exists:invoices,id',
             'payment_method' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'payment_date' => 'required|date',

@@ -15,4 +15,10 @@ class Client extends Model
         'client_name', 'Client_Company', 'Client_email',
         'Client_ContactNo', 'Client_TIN', 'address'
     ];
+
+    public function payments()
+{
+    return $this->hasMany(Payment::class, 'client_id'); // Adjust foreign key if needed
+}
+
 }

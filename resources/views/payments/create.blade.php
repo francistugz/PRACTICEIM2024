@@ -14,10 +14,10 @@
                         
                         <!-- Invoice -->
                         <div class="mb-4">
-                            <x-input-label for="invoice_id" :value="__('Invoice')" />
-                            <select id="invoice_id" name="invoice_id" class="block mt-1 w-full text-black" required>
+                            <x-input-label for="invoices_id" :value="__('Invoice')" />
+                            <select id="invoices_id" name="invoices_id" class="block mt-1 w-full text-black" required>
                                 @foreach ($invoices as $invoice)
-                                    <option value="{{ $invoice->id }}" {{ old('invoice_id') == $invoice->id ? 'selected' : '' }}>
+                                    <option value="{{ $invoices->id }}" {{ old('invoice_id') == $invoice->id ? 'selected' : '' }}>
                                         {{ $invoice->invoice_number }}
                                     </option>
                                 @endforeach

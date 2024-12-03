@@ -83,4 +83,17 @@ public function destroy(Client $client)
     }
 }
 
+public function showPayments($id)
+{
+    // Find the client by ID
+    $client = Client::findOrFail($id);
+
+    // Fetch payments related to the client (assuming you have a relationship)
+    $payments = $client->payments; // Adjust if using a custom query or eager loading
+
+    // Return a view with client and payments data
+    return view('clients.payments', compact('client', 'payments'));
+}
+
+
 }

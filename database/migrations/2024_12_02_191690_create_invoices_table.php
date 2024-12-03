@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+class CreateInvoicesTable extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,18 +13,17 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id(); // Primary key
-            $table->unsignedBigInteger('invoices_id'); // Foreign key to invoices table
-            $table->enum('payment_method', ['cash', 'card', 'cheque']); // Restricted to these values
-            $table->decimal('amount', 15, 2);
-            $table->date('payment_date');
-            $table->string('reference_number');
-            $table->text('notes')->nullable();
-            $table->timestamps();
-
-            // Foreign key constraints
-            $table->foreign('invoices_id')->references('id')->on('invoices')->onDelete('cascade');
+        Schema::create('invoices', function (Blueprint $table) {
+            $table->id(); // Auto-incrementing primary key
+            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade'); // Foreign key to the clients table
+            $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('cascade'); // Foreign key to the projects table
+            $table->string('invoice_number')->unique(); // Unique invoice number
+            $table->date('invoice_date'); // Date of the invoice
+            $table->date('due_date'); // Due date for the invoice
+            $table->decimal('total_amount', 15, 2); // Total amount (precision: 15, scale: 2)
+            $table->text('description')->nullable(); // Optional description or notes
+            $table->enum('status', ['draft', 'issued', 'paid', 'overdue'])->default('draft'); // Invoice status
+            $table->timestamps(); // Created at and Updated at
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('invoices');
     }
-};
+}

@@ -15,7 +15,7 @@ class Payment extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'invoice_id',
+        'invoices_id',
         'payment_method',
         'amount',
         'payment_date',
@@ -30,6 +30,12 @@ class Payment extends Model
      */
     public function invoice()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Invoice::class, 'invoices_id');
     }
+
+    public function client()
+{
+    return $this->belongsTo(Client::class);
+}
+
 }

@@ -16,47 +16,66 @@
                         </a>
                     </div>
 
-                    <table class="table-auto w-full text-left border-collapse">
+                    <table class="table-auto w-full text-left border-collapse border border-gray-200">
                         <thead>
                             <tr>
-                                <th class="border-b py-2">#</th>
-                                <th class="border-b py-2">{{ __('Client Name') }}</th>
-                                <th class="border-b py-2">{{ __('Company') }}</th>
-                                <th class="border-b py-2">{{ __('Email') }}</th>
-                                <th class="border-b py-2">{{ __('Contact Number') }}</th>
-                                <th class="border-b py-2">{{ __('TIN') }}</th>
-                                <th class="border-b py-2 text-center">{{ __('Actions') }}</th>
+                                <th class="border border-gray-300 px-4 py-2">#</th>
+                                <th class="border border-gray-300 px-4 py-2">{{ __('Client Name') }}</th>
+                                <th class="border border-gray-300 px-4 py-2">{{ __('Company') }}</th>
+                                <th class="border border-gray-300 px-4 py-2">{{ __('Email') }}</th>
+                                <th class="border border-gray-300 px-4 py-2">{{ __('Contact Number') }}</th>
+                                <th class="border border-gray-300 px-4 py-2">{{ __('TIN') }}</th>
+                                <th class="border border-gray-300 px-4 py-2 text-center">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($clients as $client)
                                 <tr>
-                                    <td class="border-b py-2">{{ $client->id }}</td>
-                                    <td class="border-b py-2">{{ $client->client_name }}</td>
-                                    <td class="border-b py-2">{{ $client->Client_Company }}</td>
-                                    <td class="border-b py-2">{{ $client->Client_email }}</td>
-                                    <td class="border-b py-2">{{ $client->Client_ContactNo }}</td>
-                                    <td class="border-b py-2">{{ $client->Client_TIN }}</td>
-                                    <td class="border-b py-2 text-center">
-                                        <a href="{{ route('clients.edit', $client->id) }}" class="text-blue-500 hover:text-blue-700">
+                                    <td class="border border-gray-300 px-4 py-2">{{ $client->id }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $client->client_name }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $client->Client_Company }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $client->Client_email }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $client->Client_ContactNo }}</td>
+                                    <td class="border border-gray-300 px-4 py-2">{{ $client->Client_TIN }}</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center space-y-2">
+                                        <!-- Edit Action -->
+                                        <a href="{{ route('clients.edit', $client->id) }}" 
+                                            class="text-blue-500 hover:text-blue-700">
                                             {{ __('Edit') }}
                                         </a>
+                                        <!-- Delete Action -->
                                         <form action="{{ route('clients.destroy', $client->id) }}" method="POST" class="inline-block">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('{{ __('Are you sure you want to delete this client?') }}')" class="text-red-500 hover:text-red-700">
+                                            <button type="submit" 
+                                                onclick="return confirm('{{ __('Are you sure you want to delete this client?') }}')" 
+                                                class="text-red-500 hover:text-red-700">
                                                 {{ __('Delete') }}
                                             </button>
                                         </form>
+                                        <!-- Additional Actions -->
+                                        <div class="flex flex-col items-center gap-2">
+                                            <a href="{{ route('projects.create') }}" 
+                                                class="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600">
+                                                {{ __('Add Project') }}
+                                            </a>
+                                            <a href="{{ route('invoices.create') }}" 
+                                                class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600">
+                                                {{ __('Show Payments') }}
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center py-4">{{ __('No clients found.') }}</td>
+                                    <td colspan="7" class="text-center border border-gray-300 px-4 py-2">
+                                        {{ __('No clients found.') }}
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
