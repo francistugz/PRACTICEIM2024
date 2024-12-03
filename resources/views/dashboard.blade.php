@@ -11,74 +11,74 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- Live Statistics Section -->
                     <div class="mb-6">
-                        <h3 class="text-xl font-semibold mb-4">Live Statistics</h3>
+                        <h3 class="text-xl font-semibold mb-4">LIVE STATISTICS</h3>
 
                         <!-- Statistics Row (Flex Layout) -->
                         <div class="flex space-x-4">
                             <!-- Client Count -->
                             <div class="bg-gray-200 hover:bg-red-500 text-gray-800 hover:text-white p-6 rounded-lg shadow-lg text-center w-1/5 transition-colors duration-300">
-                                <h2 class="text-xl font-bold">Total Clients</h2>
+                                <h2 class="text-xl font-bold">TOTAL CLIENTS</h2>
                                 <p class="text-3xl font-bold">{{ \App\Models\Client::count() }}</p>
                             </div>
 
                             <!-- Completed Projects Count -->
                             <div class="bg-gray-200 hover:bg-red-500 text-gray-800 hover:text-white p-6 rounded-lg shadow-lg text-center w-1/5 transition-colors duration-300">
-                                <h2 class="text-xl font-bold">Completed Projects</h2>
+                                <h2 class="text-xl font-bold">COMPLETED PROJECTS</h2>
                                 <p class="text-3xl font-bold">{{ \App\Models\Project::where('project_status', 'completed')->count() }}</p>
                             </div>
 
                             <!-- Ongoing Projects Count -->
                             <div class="bg-gray-200 hover:bg-red-500 text-gray-800 hover:text-white p-6 rounded-lg shadow-lg text-center w-1/5 transition-colors duration-300">
-                                <h2 class="text-xl font-bold">Ongoing Projects</h2>
+                                <h2 class="text-xl font-bold">ONGOING PROJECTS</h2>
                                 <p class="text-3xl font-bold">{{ \App\Models\Project::where('project_status', 'pending')->count() }}</p>
                             </div>
 
                             <!-- Invoice Count -->
                             <div class="bg-gray-200 hover:bg-red-500 text-gray-800 hover:text-white p-6 rounded-lg shadow-lg text-center w-1/5 transition-colors duration-300">
-                                <h2 class="text-xl font-bold">Total Invoices</h2>
+                                <h2 class="text-xl font-bold">TOTAL INVOICES</h2>
                                 <p class="text-3xl font-bold">{{ \App\Models\Invoice::count() }}</p>
                             </div>
 
                             <!-- Payment Count -->
                             <div class="bg-gray-200 hover:bg-red-500 text-gray-800 hover:text-white p-6 rounded-lg shadow-lg text-center w-1/5 transition-colors duration-300">
-                                <h2 class="text-xl font-bold">Total Payments</h2>
+                                <h2 class="text-xl font-bold">TOTAL PAYMENTS</h2>
                                 <p class="text-3xl font-bold">{{ \App\Models\Payment::count() }}</p>
                             </div>
                         </div>
                     </div>
                         
-                        <h3 class="text-xl font-semibold mb-4">Create New Entries</h3>
+                        <h3 class="text-xl font-semibold mb-4">CREATE</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <a href="{{ route('clients.create') }}" class="bg-blue-500 text-white p-4 rounded-lg text-center">
-                                Add Client
+                            <a href="{{ route('clients.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                ADD CLIENT
                             </a>
-                            <a href="{{ route('projects.create') }}" class="bg-green-500 text-white p-4 rounded-lg text-center">
-                                Add Project
+                            <a href="{{ route('projects.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                               ADD PROJECT
                             </a>
-                            <a href="{{ route('invoices.create') }}" class="bg-yellow-500 text-white p-4 rounded-lg text-center">
-                                Create Invoice
+                            <a href="{{ route('invoices.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                CREATE INVOICE
                             </a>
-                            <a href="{{ route('payments.create') }}" class="bg-indigo-500 text-white p-4 rounded-lg text-center">
-                                Record Payment
+                            <a href="{{ route('payments.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                RECORD PAYMENT
                             </a>
                         </div>
                     
 
                     <!-- View Existing Entries Section -->
                     <div>
-                        <h3 class="text-xl font-semibold mb-4">View Existing Entries</h3>
+                        <h3 class="text-xl font-semibold mb-4">VIEW EXISTING DATA</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <a href="{{ route('clients.index') }}" class="bg-blue-600 text-white p-4 rounded-lg text-center">
-                                View Clients
+                            <a href="{{ route('clients.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                VIEW CLIENTS
                             </a>
-                            <a href="{{ route('projects.index') }}" class="bg-green-600 text-white p-4 rounded-lg text-center">
-                                View Projects
+                            <a href="{{ route('projects.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                VIEW PROJECTS
                             </a>
-                            <a href="{{ route('invoices.index') }}" class="bg-yellow-600 text-white p-4 rounded-lg text-center">
-                                View Invoices
+                            <a href="{{ route('invoices.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                               VIEW INVOICES
                             </a>
-                            <a href="{{ route('payments.index') }}" class="bg-indigo-600 text-white p-4 rounded-lg text-center">
-                                View Payments
+                            <a href="{{ route('payments.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                VIEW PAYMENTS
                             </a>
                         </div>
                     </div>
