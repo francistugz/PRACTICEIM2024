@@ -25,6 +25,9 @@ Route::post('/projects', [ProjectController::class, 'store'])->name('projects.st
 Route::resource('invoices', InvoiceController::class);
 Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
 Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+
 
 Route::get('/', function () {
     return view('welcome');
