@@ -3,10 +3,20 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\PaymentController;
 
 Route::resource('clients', ClientController::class);
 Route::get('/clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
 Route::delete('/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
+
+
+Route::resource('payments', PaymentController::class);
+
+Route::resource('projects', ProjectController::class);
+
+Route::resource('invoices', InvoiceController::class);
 
 
 Route::get('/', function () {
