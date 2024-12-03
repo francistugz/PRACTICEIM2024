@@ -34,16 +34,26 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'project_id' => 'nullable|exists:projects,id',
-            'invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
-            'total_amount' => 'required|numeric|min:0',
+            'client_id' => ['required', 'exists:clients,id'],
+            'project_id' => ['required', 'exists:projects,id'],
+            'invoice_number' => 'required|unique:invoices,invoice_number',
+            'total_amount' => 'required|numeric',
             'due_date' => 'required|date',
             'status' => 'required|in:pending,paid,overdue',
             'notes' => 'nullable|string',
         ]);
 
-        Invoice::create($validated);
+        $invoice = new Invoice([
+            'client_id' => $validated['client_id'], // Ensure this is set
+            'project_id' => $validated['project_id'],
+            'invoice_number' => $validated['invoice_number'],
+            'total_amount' => $validated['total_amount'],
+            'due_date' => $validated['due_date'],
+            'status' => $validated['status'],
+            'notes' => $validated['notes'],
+        ]);
+    
+        $invoice->save();
 
         return redirect()->route('invoices.index')->with('success', 'Invoice created successfully!');
     }

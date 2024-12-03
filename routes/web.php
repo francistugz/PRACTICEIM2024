@@ -16,8 +16,15 @@ Route::resource('payments', PaymentController::class);
 
 Route::resource('projects', ProjectController::class);
 
-Route::resource('invoices', InvoiceController::class);
+// Route to show the form for creating a new project
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+// Route to store the new project
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 
+
+Route::resource('invoices', InvoiceController::class);
+Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
 
 Route::get('/', function () {
     return view('welcome');

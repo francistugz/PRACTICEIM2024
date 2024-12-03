@@ -1,36 +1,42 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Projects List') }}
+            {{ __('Invoices List') }}
         </h2>
     </x-slot>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-6">
         <div class="bg-white shadow-lg rounded-lg p-6">
-            <!-- Add Project Button -->
+            <!-- Add Invoice Button -->
             <div class="mb-4">
-                <a href="{{ route('projects.create') }}" class="text-indigo-600 hover:text-indigo-900">
+                <a href="{{ route('invoices.create') }}" class="text-indigo-600 hover:text-indigo-900">
                     <x-primary-button>
-                        {{ __('Create New Project') }}
+                        {{ __('Create New Invoice') }}
                     </x-primary-button>
                 </a>
             </div>
 
-            <!-- Projects Table -->
+            <!-- Invoices Table -->
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Project Name
+                            Invoice Number
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Client
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
+                            Project
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Address
+                            Total Amount
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Due Date
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
@@ -38,24 +44,30 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($projects as $project)
+                    @foreach($invoices as $invoice)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {{ $project->project_name }}
+                            {{ $invoice->invoice_number }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $project->client->client_name ?? 'N/A' }} <!-- Display client name -->
+                            {{ $invoice->client->client_name ?? 'N/A' }} <!-- Display client name -->
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ ucfirst($project->project_status) }}
+                            {{ $invoice->project ? $invoice->project->project_name : 'N/A' }} <!-- Display project name -->
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $project->address }}
+                            {{ number_format($invoice->total_amount, 2) }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ \Carbon\Carbon::parse($invoice->due_date)->format('F j, Y') }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {{ ucfirst($invoice->status) }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="{{ route('projects.edit', $project->id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                            <a href="{{ route('invoices.edit', $invoice->invoices_id) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
                             |
-                            <form action="{{ route('projects.destroy', $project->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this project?');">
+                            <form action="{{ route('invoices.destroy', $invoice->invoices_id) }}" method="POST" class="inline-block" onsubmit="return confirm('Are you sure you want to delete this invoice?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>

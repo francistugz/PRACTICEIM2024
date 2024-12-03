@@ -16,7 +16,6 @@ class Project extends Model
      */
     protected $fillable = [
         'client_id',
-        'invoice_id',
         'project_name',
         'address',
         'project_status',
@@ -39,6 +38,6 @@ class Project extends Model
      */
     public function invoice()
     {
-        return $this->hasOne(Invoice::class, 'id', 'invoice_id');
+        return $this->hasMany(Invoice::class, 'id', 'invoice_id');
     }
 }
