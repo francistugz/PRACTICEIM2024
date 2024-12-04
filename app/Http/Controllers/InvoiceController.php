@@ -61,7 +61,7 @@ class InvoiceController extends Controller
     {
         $clients = Client::all();
         $projects = Project::all();
-        return view('invoices.edit', compact('invoice', 'clients', 'projects'));
+        return view('invoices.edit', compact('invoices', 'clients', 'projects'));
     }
 
     /**

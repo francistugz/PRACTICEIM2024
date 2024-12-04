@@ -44,6 +44,21 @@
                                 <h2 class="text-xl font-bold">TOTAL PAYMENTS</h2>
                                 <p class="text-3xl font-bold">{{ \App\Models\Payment::count() }}</p>
                             </div>
+
+                            <div class="bg-gray-200 hover:bg-red-500 text-gray-800 hover:text-white p-6 rounded-lg shadow-lg text-center w-1/5 transition-colors duration-300">
+                                <h2 class="text-xl font-bold">INCOMING INVOICE DUE DATE</h2>
+                                <p class="text-3xl font-bold">
+                                    @php
+                                        // Fetch the nearest invoice due date
+                                        $nearestInvoice = \App\Models\Invoice::whereDate('due_date', '>=', now())
+                                        ->orderBy('due_date', 'asc')
+                                        ->first();
+                                    @endphp
+    
+                                        {{ $nearestInvoice ? $nearestInvoice->due_date->format('Y-m-d') : 'No upcoming invoices' }}
+                                </p>
+                            </div>
+
                         </div>
                     </div>
                         

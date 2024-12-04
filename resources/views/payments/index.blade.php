@@ -9,12 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold">{{ __('Payments List') }}</h3>
-                        <a href="{{ route('payments.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            {{ __('Add Payment') }}
-                        </a>
-                    </div>
+
 
                     <table class="table-auto w-full text-left border-collapse">
                         <thead>

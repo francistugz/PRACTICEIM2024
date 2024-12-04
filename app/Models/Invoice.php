@@ -14,6 +14,11 @@ class Invoice extends Model
      *
      * @var array
      */
+
+    protected $casts = [
+        'due_date' => 'datetime',
+    ];
+    
     protected $fillable = [
         'project_id',
         'client_id',
