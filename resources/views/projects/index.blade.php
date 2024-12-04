@@ -38,12 +38,6 @@
                                                 {{ __('Delete') }}
                                             </button>
                                         </form>
-                                        <div class="flex flex-col items-center gap-2">
-                                            <a href="{{ route('payments.index') }}" 
-                                                class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600">
-                                                {{ __('Show Payments') }}
-                                            </a>
-                                        </div>
                                     </td>
                                 </tr>
                             @empty

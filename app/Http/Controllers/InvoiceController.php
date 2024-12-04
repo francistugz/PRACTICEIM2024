@@ -14,7 +14,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoices = Invoice::with(['client', 'project'])->get(); // Eager load client and project for efficiency
+        $invoices = Invoice::with(['client', 'project'])->orderBy('created_at', 'desc')->get(); // Eager load and order by creation date
         return view('invoices.index', compact('invoices'));
     }
 
@@ -23,8 +23,8 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $clients = Client::all(); // Fetch clients for dropdown
-        $projects = Project::all(); // Fetch projects for dropdown (optional)
+        $clients = Client::orderBy('client_name')->get(); // Order clients alphabetically
+        $projects = Project::orderBy('project_name')->get(); // Order projects alphabetically
         return view('invoices.create', compact('clients', 'projects'));
     }
 
@@ -33,35 +33,44 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
 {
+    // Validation rules
     $validated = $request->validate([
         'client_id' => 'required|exists:clients,id',
-        'project_id' => 'required|exists:projects,id',
+        'project_id' => 'nullable|exists:projects,id',
         'invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
+        'invoice_date' => 'required|date|before_or_equal:today',
+        'due_date' => 'required|date|after_or_equal:invoice_date',
         'total_amount' => 'required|numeric|min:0',
-        'due_date' => 'required|date_format:Y-m-d|after_or_equal:today',
-        'status' => 'required|in:pending,paid,overdue',
-        'notes' => 'nullable|string',
+        'description' => 'nullable|string|max:1000',
+        'status' => 'required|in:draft,issued,paid,overdue',
     ], [
-        'due_date.required' => 'The due date is required.',
-        'due_date.date_format' => 'The due date must be in the format YYYY-MM-DD.',
-        'due_date.after_or_equal' => 'The due date cannot be in the past.',
+        'due_date.after_or_equal' => 'The due date must be on or after the invoice date.',
     ]);
 
-    // Save the validated data
-    Invoice::create($validated);
+    // Create the invoice
+    Invoice::create([
+        'client_id' => $validated['client_id'],
+        'project_id' => $validated['project_id'] ?? null,
+        'invoice_number' => $validated['invoice_number'],
+        'invoice_date' => $validated['invoice_date'],
+        'due_date' => $validated['due_date'],
+        'total_amount' => $validated['total_amount'],
+        'description' => $validated['description'] ?? null,
+        'status' => $validated['status'],
+    ]);
 
+    // Redirect with success message
     return redirect()->route('invoices.index')->with('success', 'Invoice created successfully!');
 }
-
 
     /**
      * Show the form for editing an invoice.
      */
     public function edit(Invoice $invoice)
     {
-        $clients = Client::all();
-        $projects = Project::all();
-        return view('invoices.edit', compact('invoices', 'clients', 'projects'));
+        $clients = Client::orderBy('client_name')->get();
+        $projects = Project::orderBy('project_name')->get();
+        return view('invoices.edit', compact('invoice', 'clients', 'projects'));
     }
 
     /**
@@ -73,13 +82,13 @@ class InvoiceController extends Controller
             'client_id' => 'required|exists:clients,id',
             'project_id' => 'nullable|exists:projects,id',
             'invoice_number' => 'required|string|max:255|unique:invoices,invoice_number,' . $invoice->id,
+            'invoice_date' => 'required|date|before_or_equal:today',
+            'due_date' => 'required|date|after_or_equal:invoice_date',
             'total_amount' => 'required|numeric|min:0',
-            'due_date' => 'required|date|after_or_equal:today',  // Ensures a valid date and that it is not in the past
-            'status' => 'required|in:pending,paid,overdue',
-            'notes' => 'nullable|string',
+            'description' => 'nullable|string|max:1000',
+            'status' => 'required|in:draft,issued,paid,overdue',
         ], [
-            'due_date.date' => 'The due date must be a valid date in the format YYYY-MM-DD.',
-            'due_date.after_or_equal' => 'The due date cannot be in the past.',
+            'due_date.after_or_equal' => 'The due date must be on or after the invoice date.',
         ]);
 
         $invoice->update($validated);

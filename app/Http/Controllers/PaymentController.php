@@ -82,4 +82,13 @@ class PaymentController extends Controller
 
         return redirect()->route('payments.index')->with('success', 'Payment deleted successfully!');
     }
+
+    public function showPayments(Client $client)
+    {
+        // Fetch the payments related to the client
+        $payments = $client->payments;  // Assuming a relationship between Client and Payment
+
+        // Return the payments view with the client and payments data
+        return view('payments', compact('client', 'payments'));
+    }
 }

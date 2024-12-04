@@ -28,7 +28,7 @@ Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.st
 Route::get('invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
 Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 
-Route::get('/clients/{id}/payments', [ClientController::class, 'showPayments'])->name('clients.payments');
+Route::get('/clients/{id}/payments', [PaymentController::class, 'showPayments'])->name('clients.payments');
 
 
 Route::get('/', function () {

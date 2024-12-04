@@ -62,19 +62,19 @@
                         </div>
                     </div>
                         
-                        <h3 class="text-xl font-semibold mb-4">CREATE</h3>
+                        <h3 class="text-xl font-semibold mb-4">Action Buttons</h3>
                         <div class="grid grid-cols-2 gap-4">
                             <a href="{{ route('clients.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
                                 ADD CLIENT
-                            </a>
-                            <a href="{{ route('projects.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
-                               ADD PROJECT
                             </a>
                             <a href="{{ route('invoices.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
                                 CREATE INVOICE
                             </a>
                             <a href="{{ route('payments.create') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
                                 RECORD PAYMENT
+                            </a>
+                            <a href="{{ route('payments.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
+                                VIEW PAYMENTS
                             </a>
                         </div>
                     
@@ -91,9 +91,6 @@
                             </a>
                             <a href="{{ route('invoices.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
                                VIEW INVOICES
-                            </a>
-                            <a href="{{ route('payments.index') }}" class="bg-gray-500 hover:bg-red-500 text-white p-4 rounded-lg text-center">
-                                VIEW PAYMENTS
                             </a>
                         </div>
                     </div>

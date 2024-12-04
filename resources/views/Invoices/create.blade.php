@@ -66,7 +66,8 @@
                         <div class="mt-4">
                             <x-input-label for="status" :value="__('Status')" />
                             <select id="status" name="status" class="block mt-1 w-full text-black" required>
-                                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                                <option value="issued" {{ old('status') == 'issued' ? 'selected' : '' }}>Issued</option>
                                 <option value="paid" {{ old('status') == 'paid' ? 'selected' : '' }}>Paid</option>
                                 <option value="overdue" {{ old('status') == 'overdue' ? 'selected' : '' }}>Overdue</option>
                             </select>

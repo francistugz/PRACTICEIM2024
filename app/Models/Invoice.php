@@ -14,33 +14,46 @@ class Invoice extends Model
      *
      * @var array
      */
-
-    protected $casts = [
-        'due_date' => 'datetime',
-    ];
-    
     protected $fillable = [
-        'project_id',
         'client_id',
+        'project_id',
         'invoice_number',
-        'total_amount',
+        'invoice_date',
         'due_date',
+        'total_amount',
+        'description',
         'status',
-        'notes',
     ];
 
     /**
-     * Define the relationship with the Project model.
+     * Relationship with the Client model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    /**
+     * Relationship with the Project model (optional).
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id');
+        return $this->belongsTo(Project::class);
     }
 
-    public function client()
+    /**
+     * Scope to filter invoices by status.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $status
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeStatus($query, $status)
     {
-        return $this->belongsTo(Client::class, 'client_id');
+        return $query->where('status', $status);
     }
 }
