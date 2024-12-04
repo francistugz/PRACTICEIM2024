@@ -39,18 +39,18 @@
                             <x-input-error :messages="$errors->get('project_id')" class="mt-2" />
                         </div>
 
-                        <!-- Invoice Number -->
-                        <div class="mt-4">
-                            <x-input-label for="invoice_number" :value="__('Invoice Number')" />
-                            <x-text-input id="invoice_number" class="block mt-1 w-full text-black" type="text" name="invoice_number" :value="old('invoice_number')" required />
-                            <x-input-error :messages="$errors->get('invoice_number')" class="mt-2" />
-                        </div>
 
                         <!-- Total Amount -->
                         <div class="mt-4">
                             <x-input-label for="total_amount" :value="__('Total Amount')" />
                             <x-text-input id="total_amount" class="block mt-1 w-full text-black" type="number" step="0.01" name="total_amount" :value="old('total_amount')" required />
                             <x-input-error :messages="$errors->get('total_amount')" class="mt-2" />
+                        </div>
+
+                        <div class="mt-4">
+                            <x-input-label for="description" :value="__('Description/Notes')" />
+                            <x-text-input id="description" class="block mt-1 w-full text-black" type="text" name="description" :value="old('description')" required />
+                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
                         <!-- Due Date -->
@@ -74,12 +74,6 @@
                             <x-input-error :messages="$errors->get('status')" class="mt-2" />
                         </div>
 
-                        <!-- Notes -->
-                        <div class="mt-4">
-                            <x-input-label for="notes" :value="__('Notes')" />
-                            <x-text-input id="notes" class="block mt-1 w-full text-black" name="notes" :value="old('notes')" required />
-                            <x-input-error :messages="$errors->get('notes')" class="mt-2" />
-                        </div>
 
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button>
